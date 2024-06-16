@@ -1,4 +1,5 @@
 import Product from "../models/product.js";
+import ErrorHandler from "../utils/errorHandler.js";
 
 // Get all products
 const getProducts = async (_, res) => {
@@ -24,20 +25,23 @@ const getProducts = async (_, res) => {
 };
 
 // Get products by ID
-const getProductDetails = async (req, res) => {
-	console.log(req.params);
-	const product = await Product.findById(req.params.id);
+const getProductDetails = async ({ params: { id } }, res, next) => {
+	const product = await Product.findById(id);
+	try {
+		if (!product) {
+			return next(ErrorHandler("Product not found", 404));
+		}
 
-	if (!product) {
-		return res.status(404).json({
+		res.status(200).json({
+			success: true,
+			product,
+		});
+	} catch (error) {
+		res.status(500).json({
 			success: false,
-			message: "Product not found",
+			message: error.message,
 		});
 	}
-
-	res.status(200).json({
-		product,
-	});
 };
 
 // Create New Product => /api/v1/admin/products
