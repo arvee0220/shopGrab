@@ -1,0 +1,23 @@
+{
+	"name": "shop_lift",
+	"type": "module",
+	"version": "1.0.0",
+	"description": "MERN E-commerce",
+	"main": "index.js",
+	"scripts": {
+		"start": "node backend/index.js",
+		"dev": "SET NODE_ENV=DEVELOPMENT& nodemon backend/index.js",
+		"prod": "SET NODE_ENV=PRODUCTION& nodemon backend/index.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.4.5",
+		"express": "^4.19.2",
+		"mongoose": "^8.4.1"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.3"
+	}
+}
