@@ -1,8 +1,9 @@
+import catchAsyncError from "../middlewares/catchAsyncError.js";
 import Product from "../models/product.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
 // Get all products
-const getProducts = async (_, res) => {
+const getProducts = catchAsyncError(async (_, res) => {
 	const products = await Product.find();
 	try {
 		if (!products) {
@@ -22,10 +23,10 @@ const getProducts = async (_, res) => {
 			message: error.message,
 		});
 	}
-};
+});
 
 // Get products by ID
-const getProductDetails = async ({ params: { id } }, res, next) => {
+const getProductDetails = catchAsyncError(async ({ params: { id } }, res, next) => {
 	const product = await Product.findById(id);
 	try {
 		if (!product) {
@@ -42,10 +43,10 @@ const getProductDetails = async ({ params: { id } }, res, next) => {
 			message: error.message,
 		});
 	}
-};
+});
 
 // Create New Product => /api/v1/admin/products
-const newProduct = async ({ body }, res) => {
+const newProduct = catchAsyncError(async ({ body }, res) => {
 	const product = await Product.create(body);
 	try {
 		res.status(200).json({
@@ -58,10 +59,10 @@ const newProduct = async ({ body }, res) => {
 			message: error.message,
 		});
 	}
-};
+});
 
 // Update Product
-const updateProduct = async ({ params: { id }, body }, res) => {
+const updateProduct = catchAsyncError(async ({ params: { id }, body }, res) => {
 	let product = await Product.findById(id);
 
 	try {
@@ -85,9 +86,9 @@ const updateProduct = async ({ params: { id }, body }, res) => {
 			message: error.message,
 		});
 	}
-};
+});
 
-const deleteProduct = async ({ params: { id } }, res) => {
+const deleteProduct = catchAsyncError(async ({ params: { id } }, res) => {
 	const product = await Product.findById(id);
 
 	try {
@@ -111,6 +112,6 @@ const deleteProduct = async ({ params: { id } }, res) => {
 			message: error.message,
 		});
 	}
-};
+});
 
 export { getProducts, newProduct, getProductDetails, updateProduct, deleteProduct };

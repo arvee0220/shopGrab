@@ -1,4 +1,4 @@
-const ErrorMiddleware = (err, req, res, next) => {
+const ErrorMiddleware = (err, _, res, __) => {
 	let error = {
 		statusCode: err?.statusCode || 500,
 		message: err?.message || "Internal Server Error",
