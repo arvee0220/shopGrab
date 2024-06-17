@@ -36,7 +36,8 @@ app.use("/api/v1", productRoutes);
 app.use(ErrorMiddleware);
 
 const port = process.env.PORT;
+const nodeEnv = process.env.NODE_ENV;
 
 const server = app.listen(port, () => {
-	console.log(`Server started on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode`);
+	console.log(`Server started on PORT: ${port} in ${nodeEnv} mode`);
 });
