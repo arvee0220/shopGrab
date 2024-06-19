@@ -5,12 +5,12 @@ import ErrorHandler from "../utils/errorHandler.js";
 
 // Get all products
 const getProducts = catchAsyncError(async (req, res) => {
-	let query = Product.find();
+	let queryObj = Product.find();
 
-	query = APIFilters(query, req.query);
+	queryObj = APIFilters(queryObj, req.query);
 
 	try {
-		let products = await query;
+		let products = await queryObj;
 		let filteredProductsCount = products.length;
 
 		if (!products.length) {
