@@ -1,12 +1,19 @@
 import catchAsyncError from "../middlewares/catchAsyncError.js";
 import Product from "../models/product.js";
+import APIFilters from "../utils/apiFilters.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
 // Get all products
-const getProducts = catchAsyncError(async (_, res) => {
-	const products = await Product.find();
+const getProducts = catchAsyncError(async (req, res) => {
+	let query = Product.find();
+
+	query = APIFilters(query, req.query);
+
 	try {
-		if (!products) {
+		let products = await query;
+		let filteredProductsCount = products.length;
+
+		if (!products.length) {
 			return res.status(404).json({
 				success: false,
 				message: "Database is empty",
@@ -15,6 +22,7 @@ const getProducts = catchAsyncError(async (_, res) => {
 
 		res.status(200).json({
 			success: true,
+			filteredProductsCount,
 			products,
 		});
 	} catch (error) {
