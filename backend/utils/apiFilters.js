@@ -25,7 +25,9 @@ const apiFilters = (query, queryStr) => {
 		let queryStrCopy = JSON.stringify(queryCopy);
 		queryStrCopy = queryStrCopy.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
 
-		query = query.find(JSON.parse(queryStrCopy));
+		const filter = JSON.parse(queryStrCopy);
+
+		query = query.find(filter);
 
 		return query;
 	};

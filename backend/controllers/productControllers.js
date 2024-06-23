@@ -8,7 +8,6 @@ const getProducts = catchAsyncError(async (req, res) => {
 	let queryObj = Product.find();
 
 	queryObj = apiFilters(queryObj, req.query);
-	// queryObj = filters(queryObj, req.query);
 
 	try {
 		let products = await queryObj;
