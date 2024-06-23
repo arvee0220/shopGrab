@@ -1,13 +1,14 @@
 import catchAsyncError from "../middlewares/catchAsyncError.js";
 import Product from "../models/product.js";
-import APIFilters from "../utils/apiFilters.js";
+import { search, filters } from "../utils/apiFilters.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
 // Get all products
 const getProducts = catchAsyncError(async (req, res) => {
 	let queryObj = Product.find();
 
-	queryObj = APIFilters(queryObj, req.query);
+	queryObj = search(queryObj, req.query);
+	queryObj = filters(queryObj, req.query);
 
 	try {
 		let products = await queryObj;
