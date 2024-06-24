@@ -19,8 +19,9 @@ const apiFilters = (_, queryStr) => {
 		const fieldsToRemove = ["keyword", "page"];
 		fieldsToRemove.forEach((elem) => delete queryCopy[elem]);
 
-		// advance filters for price, ratings etc => check mongodb docs
 		let queryStrCopy = JSON.stringify(queryCopy);
+
+		// https://www.mongodb.com/docs/manual/reference/operator/query-comparison/
 		queryStrCopy = queryStrCopy.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
 
 		const filter = JSON.parse(queryStrCopy);
