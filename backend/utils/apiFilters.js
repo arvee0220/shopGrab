@@ -1,5 +1,5 @@
-const apiFilters = (query, queryStr) => {
-	const search = () => {
+const apiFilters = (_, queryStr) => {
+	const search = (query) => {
 		if (queryStr.keyword) {
 			const keyword = {
 				name: {
@@ -13,12 +13,10 @@ const apiFilters = (query, queryStr) => {
 		return query;
 	};
 
-	search();
-
-	const filters = () => {
+	const filters = (query) => {
 		const queryCopy = { ...queryStr };
 
-		const fieldsToRemove = ["keyword"];
+		const fieldsToRemove = ["keyword", "page"];
 		fieldsToRemove.forEach((elem) => delete queryCopy[elem]);
 
 		// advance filters for price, ratings etc => check mongodb docs
@@ -32,9 +30,16 @@ const apiFilters = (query, queryStr) => {
 		return query;
 	};
 
-	filters();
+	const pagination = (query, resPerPage) => {
+		const currentPage = Number(queryStr.page) || 1;
+		const skip = resPerPage * (currentPage - 1);
 
-	return query;
+		query = query.limit(resPerPage).skip(skip);
+
+		return query;
+	};
+
+	return { search, filters, pagination };
 };
 
 export default apiFilters;

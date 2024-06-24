@@ -5,9 +5,15 @@ import ErrorHandler from "../utils/errorHandler.js";
 
 // Get all products
 const getProducts = catchAsyncError(async (req, res) => {
+	const resPerPage = 4;
+
 	let queryObj = Product.find();
 
-	queryObj = apiFilters(queryObj, req.query);
+	const { search, filters, pagination } = apiFilters(queryObj, req.query);
+
+	queryObj = search(queryObj);
+	queryObj = filters(queryObj);
+	queryObj = pagination(queryObj, resPerPage);
 
 	try {
 		let products = await queryObj;
@@ -22,6 +28,7 @@ const getProducts = catchAsyncError(async (req, res) => {
 
 		res.status(200).json({
 			success: true,
+			resPerPage,
 			filteredProductsCount,
 			products,
 		});
