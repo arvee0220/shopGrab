@@ -59,26 +59,25 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
 	const isPasswordMatched = await bcrypt.compare(password, user.password);
 
 	try {
-		if (!email || !password) {
-			return next(ErrorHandler("Please enter email & password"));
+		switch (true) {
+			case !email || !password:
+				return next(ErrorHandler("Please enter email & password"));
+			case !user:
+				return next(ErrorHandler("Invalid email or password", 401));
+			case !isPasswordMatched: // Compare user password
+				return next(ErrorHandler("Invalid email or password", 401));
+			case user && isPasswordMatched:
+				const token = generateToken(user);
+				return res.status(201).json({
+					success: true,
+					token,
+				});
+			default:
+				return res.status(500).json({
+					success: false,
+					message: "Something went wrong",
+				});
 		}
-
-		if (!user) {
-			return next(ErrorHandler("Invalid email or password", 401));
-		}
-
-		// Compare user password
-
-		if (!isPasswordMatched) {
-			return next(ErrorHandler("Invalid email or password", 401));
-		}
-
-		const token = generateToken(user);
-
-		res.status(201).json({
-			success: true,
-			token,
-		});
 	} catch (error) {
 		res.status(500).json({
 			success: false,
