@@ -3,6 +3,7 @@ import catchAsyncErrors from "../middlewares/catchAsyncError.js";
 import User from "../models/user.js";
 import generateToken from "../utils/jwtToken.js";
 import ErrorHandler from "../utils/errorHandler.js";
+import sendToken from "../utils/sendToken.js";
 
 const registerUser = catchAsyncErrors(async (req, res, next) => {
 	const { name, email, password } = req.body;
@@ -19,15 +20,7 @@ const registerUser = catchAsyncErrors(async (req, res, next) => {
 
 	const token = generateToken(user);
 
-	res.status(201).json({
-		success: true,
-		token,
-		user: {
-			id: user._id,
-			name: user.name,
-			email: user.email,
-		},
-	});
+	sendToken(user, 201, res);
 
 	console.log(token);
 });
@@ -43,8 +36,14 @@ const getUser = catchAsyncErrors(async (req, res, next) => {
 
 		res.status(200).json({
 			success: true,
-			user,
+			user: {
+				id: user._id,
+				name: user.name,
+				email: user.email,
+			},
 		});
+
+		sendToken(user, 200, res);
 	} catch (error) {
 		res.status(500).json({
 			success: false,
@@ -67,16 +66,7 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
 			case !isPasswordMatched: // Compare user password
 				return next(ErrorHandler("Invalid email or password", 401));
 			case user && isPasswordMatched:
-				const token = generateToken(user);
-				return res.status(201).json({
-					success: true,
-					token,
-					user: {
-						id: user._id,
-						name: user.name,
-						email: user.email,
-					},
-				});
+				return sendToken(user, 201, res);
 			default:
 				return res.status(500).json({
 					success: false,
