@@ -15,6 +15,8 @@ const getProducts = catchAsyncError(async (req, res) => {
 	queryObj = filters(queryObj);
 	queryObj = pagination(queryObj, resPerPage);
 
+	console.log("req?.user", req?.user);
+
 	try {
 		let products = await queryObj;
 		let filteredProductsCount = products.length;

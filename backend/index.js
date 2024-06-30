@@ -2,9 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDatabase } from "./config/dbConnect.js";
 import ErrorMiddleware from "./middlewares/errorMiddleware.js";
+import cookieParser from "cookie-parser";
 // Routes
-import productRoutes from "./routes/products.js";
-import authRoutes from "./routes/auth.js";
+import productRoutes from "./routes/productsRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
@@ -30,6 +31,7 @@ process.on("unhandledRejection", (err) => {
 connectDatabase();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", authRoutes);
