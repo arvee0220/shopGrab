@@ -71,6 +71,11 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
 				return res.status(201).json({
 					success: true,
 					token,
+					user: {
+						id: user._id,
+						name: user.name,
+						email: user.email,
+					},
 				});
 			default:
 				return res.status(500).json({
