@@ -5,7 +5,7 @@ import generateToken from "../utils/jwtToken.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import sendToken from "../utils/sendToken.js";
 
-const registerUser = catchAsyncErrors(async (req, res, next) => {
+const registerUser = catchAsyncErrors(async (req, res, _) => {
 	const { name, email, password } = req.body;
 
 	const salt = await bcrypt.genSalt(10);
@@ -81,7 +81,7 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
 	}
 });
 
-const logOutUser = catchAsyncErrors(async (req, res, next) => {
+const logOutUser = catchAsyncErrors(async (_, res, __) => {
 	res.cookie("token", null, {
 		expires: new Date(Date.now()),
 		httpOnly: true,
