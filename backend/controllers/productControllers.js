@@ -63,7 +63,9 @@ const getProductDetails = catchAsyncError(async ({ params: { id } }, res, next) 
 });
 
 // Create New Product => /api/v1/admin/products
-const newProduct = catchAsyncError(async ({ body }, res) => {
+const newProduct = catchAsyncError(async ({ body, user }, res) => {
+	body.user = user._id;
+
 	const product = await Product.create(body);
 	try {
 		res.status(200).json({

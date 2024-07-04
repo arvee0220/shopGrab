@@ -15,16 +15,24 @@ const isAuthenticatedUser = catchAsyncError(async (req, _, next) => {
 
 	req.user = await User.findById(decoded.id);
 
+	console.log("Authenticated User:", req.user);
+
 	next();
 });
 
 const authorizeRoles = (...roles) => {
 	return (req, res, next) => {
+		if (!req.user) {
+			return next(ErrorHandler("User is not authenticated", 401));
+		}
+
 		if (!roles.includes(req.user.role)) {
 			return next(
 				ErrorHandler(`Role ${req.user.role} is not allowed to access this resource`, 403)
 			);
 		}
+
+		console.log("User Role:", req.user.role);
 
 		next();
 	};
