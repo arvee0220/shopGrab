@@ -1,3 +1,7 @@
+import mongoose from "mongoose";
+
+const userId = new mongoose.Types.ObjectId("66e70dae00e706b74b805443");
+
 const products = [
 	{
 		name: "SanDisk Ultra 128GB SDXC UHS-I Memory Card up to 80MB/s",
@@ -24,6 +28,7 @@ const products = [
 		stock: 50,
 		numOfReviews: 32,
 		reviews: [],
+		user: userId,
 	},
 	{
 		name: "CAN USB FD Adapter (GC-CAN-USB-FD)",
@@ -54,6 +59,7 @@ const products = [
 		stock: 0,
 		numOfReviews: 2,
 		reviews: [],
+		user: userId,
 	},
 	{
 		name: "CHARMOUNT Full Motion TV Wall Mount Swivel",
@@ -76,6 +82,7 @@ const products = [
 		stock: 1,
 		numOfReviews: 12,
 		reviews: [],
+		user: userId,
 	},
 	{
 		name: "Bose QuietComfort 35 II Wireless Bluetooth Headphones",
@@ -98,6 +105,7 @@ const products = [
 		stock: 11,
 		numOfReviews: 112,
 		reviews: [],
+		user: userId,
 	},
 	{
 		name: "Apple AirPods with Charging Case (Wired)",
@@ -124,6 +132,7 @@ const products = [
 		stock: 122,
 		numOfReviews: 2671,
 		reviews: [],
+		user: userId,
 	},
 	{
 		name: "Cable Boom Microphone - Volume Control for Playstation PS4 or Xbox",
@@ -142,6 +151,7 @@ const products = [
 		stock: 1123,
 		numOfReviews: 6,
 		reviews: [],
+		user: userId,
 	},
 	{
 		name: "Nikon D3500 W/ AF-P DX NIKKOR 18-55mm f/3.5-5.6G VR Black",
@@ -168,6 +178,7 @@ const products = [
 		stock: 131,
 		numOfReviews: 222,
 		reviews: [],
+		user: userId,
 	},
 	{
 		name: "Apple MacBook Air (13-inch, 8GB RAM, 256GB SSD Storage) - Space Gray",
@@ -194,6 +205,7 @@ const products = [
 		stock: 0,
 		numOfReviews: 56,
 		reviews: [],
+		user: userId,
 	},
 	{
 		name: "Kauffman Orchards Homegrown McIntosh Apples",
@@ -216,6 +228,7 @@ const products = [
 		stock: 500,
 		numOfReviews: 1,
 		reviews: [],
+		user: userId,
 	},
 ];
 
